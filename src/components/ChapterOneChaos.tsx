@@ -67,9 +67,9 @@ export const ChapterOneChaos: React.FC = () => {
       desktopY: -110,
       desktopRotate: -2,
       tabletX: -195,
-      tabletY: -75,
+      tabletY: -80,
       mobileX: -85,
-      mobileY: -55,
+      mobileY: -95,
       showOnTablet: true,
       showOnMobile: true,
     },
@@ -86,9 +86,9 @@ export const ChapterOneChaos: React.FC = () => {
       desktopY: -110,
       desktopRotate: 2,
       tabletX: 195,
-      tabletY: -75,
+      tabletY: -80,
       mobileX: 85,
-      mobileY: -55,
+      mobileY: -95,
       showOnTablet: true,
       showOnMobile: true,
     },
@@ -107,7 +107,7 @@ export const ChapterOneChaos: React.FC = () => {
       tabletX: -205,
       tabletY: 0,
       mobileX: -85,
-      mobileY: 55,
+      mobileY: 0,
       showOnTablet: true,
       showOnMobile: true,
     },
@@ -126,7 +126,7 @@ export const ChapterOneChaos: React.FC = () => {
       tabletX: 205,
       tabletY: 0,
       mobileX: 85,
-      mobileY: 55,
+      mobileY: 0,
       showOnTablet: true,
       showOnMobile: true,
     },
@@ -143,11 +143,11 @@ export const ChapterOneChaos: React.FC = () => {
       desktopY: 40,
       desktopRotate: -1,
       tabletX: -195,
-      tabletY: 75,
+      tabletY: 80,
       mobileX: -85,
-      mobileY: 55,
+      mobileY: 90,
       showOnTablet: true,
-      showOnMobile: false,
+      showOnMobile: true,
     },
     {
       id: 'hubspot',
@@ -162,11 +162,11 @@ export const ChapterOneChaos: React.FC = () => {
       desktopY: 40,
       desktopRotate: 1,
       tabletX: 195,
-      tabletY: 75,
+      tabletY: 80,
       mobileX: 85,
-      mobileY: 55,
+      mobileY: 90,
       showOnTablet: true,
-      showOnMobile: false,
+      showOnMobile: true,
     },
     {
       id: 'calendar',
@@ -176,14 +176,14 @@ export const ChapterOneChaos: React.FC = () => {
       appearEnd: 0.42,
       color: 'border-blue-500/40 text-blue-400 bg-[#0e1419] shadow-blue-500/5',
       badge: 'Conflict',
-      content: 'Vendor Kickoff vs Q1 Review duplicate.',
+      content: 'Vendor Kickoff duplicate.',
       desktopX: -305,
       desktopY: 115,
       desktopRotate: 2,
       tabletX: -195,
-      tabletY: 75,
+      tabletY: 80,
       mobileX: -85,
-      mobileY: -55,
+      mobileY: -95,
       showOnTablet: false,
       showOnMobile: false,
     },
@@ -200,9 +200,9 @@ export const ChapterOneChaos: React.FC = () => {
       desktopY: 115,
       desktopRotate: -2,
       tabletX: 195,
-      tabletY: 75,
+      tabletY: 80,
       mobileX: 85,
-      mobileY: -55,
+      mobileY: -95,
       showOnTablet: false,
       showOnMobile: false,
     },
@@ -640,47 +640,47 @@ export const ChapterOneChaos: React.FC = () => {
           {/* Emergent SAMPLE Unified Product Card (Phase 04 -> 05) */}
           {productRevealProgress > 0 && (
             <div
-              className="relative w-full max-w-xl sm:max-w-2xl bg-[#0e1118] border border-[#c8ff00]/40 rounded-2xl p-4 sm:p-5.5 text-center shadow-2xl shadow-[#c8ff00]/10 z-20 will-change-transform transform-gpu"
+              className="relative w-full max-w-xl sm:max-w-2xl bg-[#0e1118] border border-[#c8ff00]/40 rounded-2xl p-3 sm:p-5.5 text-center shadow-2xl shadow-[#c8ff00]/10 z-20 will-change-transform transform-gpu max-h-[85vh] overflow-y-auto"
               style={{
                 opacity: productRevealProgress,
                 transform: `scale(${0.88 + productRevealProgress * 0.12})`,
               }}
             >
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#c8ff00]/10 border border-[#c8ff00]/30 text-[11px] font-mono text-[#c8ff00] mb-2 sm:mb-2.5">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#c8ff00]/10 border border-[#c8ff00]/30 text-[10px] sm:text-[11px] font-mono text-[#c8ff00] mb-1.5 sm:mb-2.5">
+                <CheckCircle2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
                 <span className="truncate">ALL 12 SYSTEMS CONSOLIDATED // DETERMINISTIC ENGINE</span>
               </div>
 
-              <div className="text-lg sm:text-2xl font-bold text-white tracking-tight leading-tight">
+              <div className="text-base sm:text-2xl font-bold text-white tracking-tight leading-tight">
                 ONE CONNECTED WORKSPACE
               </div>
 
-              <p className="mt-1 text-xs text-neutral-400 max-w-md mx-auto line-clamp-2">
+              <p className="mt-1 text-[11px] sm:text-xs text-neutral-400 max-w-md mx-auto line-clamp-2">
                 No human copy-paste. No broken spreadsheets. 24 platforms orchestrated into a single automated stream.
               </p>
 
               {/* 3 Pillars Architecture */}
-              <div className="mt-3.5 sm:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 text-left font-mono text-xs">
-                <div className="p-2.5 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
-                  <div className="text-[10px] text-[#c8ff00] font-bold">01 / INGEST</div>
-                  <div className="text-xs font-semibold text-white mt-0.5 truncate">Multi-Channel Ingest</div>
-                  <p className="text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
+              <div className="mt-2.5 sm:mt-4 grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2.5 text-left font-mono text-xs">
+                <div className="p-2 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
+                  <div className="text-[9px] sm:text-[10px] text-[#c8ff00] font-bold">01 / INGEST</div>
+                  <div className="text-[11px] sm:text-xs font-semibold text-white mt-0.5 truncate">Multi-Channel Ingest</div>
+                  <p className="text-[9px] sm:text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
                     Webhooks, forms, email triggers into one queue.
                   </p>
                 </div>
 
-                <div className="p-2.5 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
-                  <div className="text-[10px] text-[#c8ff00] font-bold">02 / ROUTE</div>
-                  <div className="text-xs font-semibold text-white mt-0.5 truncate">Deterministic Rules</div>
-                  <p className="text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
+                <div className="p-2 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
+                  <div className="text-[9px] sm:text-[10px] text-[#c8ff00] font-bold">02 / ROUTE</div>
+                  <div className="text-[11px] sm:text-xs font-semibold text-white mt-0.5 truncate">Deterministic Rules</div>
+                  <p className="text-[9px] sm:text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
                     Condition scoring and automated branching.
                   </p>
                 </div>
 
-                <div className="p-2.5 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
-                  <div className="text-[10px] text-[#c8ff00] font-bold">03 / EXECUTE</div>
-                  <div className="text-xs font-semibold text-white mt-0.5 truncate">Instant Dispatch</div>
-                  <p className="text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
+                <div className="p-2 sm:p-3 bg-[#131722] border border-neutral-800 rounded-xl">
+                  <div className="text-[9px] sm:text-[10px] text-[#c8ff00] font-bold">03 / EXECUTE</div>
+                  <div className="text-[11px] sm:text-xs font-semibold text-white mt-0.5 truncate">Instant Dispatch</div>
+                  <p className="text-[9px] sm:text-[10px] text-neutral-400 mt-0.5 font-sans line-clamp-2">
                     Salesforce & Slack updated in &lt; 50ms.
                   </p>
                 </div>
