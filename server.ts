@@ -8,14 +8,18 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Determine port:
-// If DEFAULT_APP_PORT is present (as in AI Studio / Cloud Run with Nginx on 8080), listen on 3000.
-// Otherwise, use PORT or 3000.
-const targetPort = process.env.DEFAULT_APP_PORT
-  ? parseInt(process.env.DEFAULT_APP_PORT, 10)
-  : (process.env.NGINX_PORT ? 3000 : (process.env.PORT ? parseInt(process.env.PORT, 10) : 3000));
+// Determine primary port:
+// Cloud Run in production passes PORT (e.g. 8080).
+// In development, DEFAULT_APP_PORT is 3000.
+// We must prioritize PORT so Cloud Run traffic is received!
+const envPort = process.env.PORT ? parseInt(process.env.PORT, 10) : undefined;
+const defaultAppPort = process.env.DEFAULT_APP_PORT ? parseInt(process.env.DEFAULT_APP_PORT, 10) : undefined;
+const primaryPort = envPort || defaultAppPort || 3000;
 
-const distPath = path.join(__dirname, 'dist');
+// Resolve dist directory robustly
+const distPath = fs.existsSync(path.join(__dirname, 'dist'))
+  ? path.join(__dirname, 'dist')
+  : path.resolve(process.cwd(), 'dist');
 const indexPath = path.join(distPath, 'index.html');
 
 // Health check endpoint for Cloud Run & load balancers
@@ -24,43 +28,63 @@ app.get('/health', (_req, res) => {
 });
 
 // Serve static assets from dist
-app.use(express.static(distPath));
+app.use(express.static(distPath, {
+  maxAge: '1d',
+  index: false,
+}));
 
 // Fallback to index.html for SPA routing
 app.get('*', (_req, res) => {
   if (fs.existsSync(indexPath)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.sendFile(indexPath);
   } else {
     res.status(200).send(`<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SAMPLE SAAS</title>
+  <title>SAMPLE SAAS WEBSITE</title>
+  <style>
+    body { background-color: #0a0a0c; color: #f4f5f7; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+  </style>
 </head>
-<body style="background:#0a0a0c;color:#f4f5f7;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
-  <div style="text-align:center;">
-    <h1>Building application...</h1>
-    <p>Please refresh in a moment.</p>
+<body>
+  <div style="text-align: center;">
+    <h1 style="color: #c8ff00;">SAMPLE SAAS</h1>
+    <p>Application is initializing. Please refresh in a few seconds.</p>
   </div>
 </body>
 </html>`);
   }
 });
 
-function startServer(port: number) {
-  const server = app.listen(port, '0.0.0.0', () => {
-    console.log(`SAMPLE SAAS WEBSITE production server listening on port ${port}`);
-  });
+function bindPort(port: number, isFallback = false) {
+  try {
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`SAMPLE SAAS server active on 0.0.0.0:${port}`);
+    });
 
-  server.on('error', (err: any) => {
-    if (err.code === 'EADDRINUSE' && port !== 3000) {
-      console.warn(`Port ${port} in use, retrying on port 3000...`);
-      startServer(3000);
-    } else {
-      console.error('Server error:', err);
-    }
-  });
+    server.on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        console.warn(`Port ${port} already bound.`);
+        if (!isFallback && port !== 3000) {
+          console.log('Attempting fallback port 3000...');
+          bindPort(3000, true);
+        }
+      } else {
+        console.error(`Server error on port ${port}:`, err);
+      }
+    });
+  } catch (err) {
+    console.error(`Failed to bind port ${port}:`, err);
+  }
 }
 
-startServer(targetPort);
+bindPort(primaryPort);
+
+// If running in production on Cloud Run with PORT (e.g. 8080), also attempt 3000 if different
+if (primaryPort !== 3000 && !process.env.NGINX_PORT) {
+  bindPort(3000, true);
+}
+
 
